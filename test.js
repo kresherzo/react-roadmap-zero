@@ -1,1 +1,1 @@
-console.log('test'  // Отсутствует закрывающая скобка
+console.log(undeclaredVariable); // Ошибка: переменная не объявлена
