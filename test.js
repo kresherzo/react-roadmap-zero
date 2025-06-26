@@ -1,1 +1,1 @@
-console.log(undeclaredVariable); // Ошибка: переменная не объявлена
+function test() {return true}  // Нет пробела и точки с запятой
