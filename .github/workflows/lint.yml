@@ -11,4 +11,5 @@ jobs:
         with:
           node-version: '18'
       - run: npm install
+      - run: chmod -R +x .husky  # Устанавливаем права выполнения для всей папки .husky
       - run: npm run lint
