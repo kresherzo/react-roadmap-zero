@@ -2,7 +2,7 @@ name: Lint
 
 on:
   push:
-    branches: [main]     # ← при желании укажите свои ветки
+    branches: [master]    # ← при желании укажите свои ветки
   pull_request:          # проверка всех PR
 
 jobs:
