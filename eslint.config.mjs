@@ -34,6 +34,9 @@ export default [
       react: reactPlugin,
       prettier: prettierPlugin,
     },
+    settings: {
+  react: { version: 'detect' },
+},
 
     rules: {
       'prettier/prettier': 'error',
