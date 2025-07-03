@@ -1,16 +1,25 @@
-// eslint.config.mjs — Flat-config (ESLint 9)
-import js from '@eslint/js';                         // «eslint:recommended»
-import reactPlugin from 'eslint-plugin-react';       // React-правила
-import prettierPlugin from 'eslint-plugin-prettier'; // Prettier-как-правила
+// eslint.config.mjs
+import js from '@eslint/js';
+import reactPlugin from 'eslint-plugin-react';
+import prettierPlugin from 'eslint-plugin-prettier';
 import globals from 'globals';
+import { FlatCompat } from '@eslint/eslintrc';
+
+const compat = new FlatCompat({
+  baseDirectory: import.meta.dirname,
+});
 
 export default [
-  // Готовые наборы правил
+  /* 1. Уже «плоский» набор правил JS */
   js.configs.recommended,
-  reactPlugin.configs.recommended,
-  prettierPlugin.configs.recommended,
 
-  // Дополнительная «пряничная» секция
+  /* 2. React-набор → через FlatCompat */
+  ...compat.config(reactPlugin.configs.recommended),
+
+  /* 3. Prettier-набор → тоже через FlatCompat  */
+  ...compat.config(prettierPlugin.configs.recommended),
+
+  /* 4. Ваша надстройка */
   {
     languageOptions: {
       globals: { ...globals.browser },
@@ -21,14 +30,12 @@ export default [
       },
     },
 
-    // <--- ВАЖНО: объект, а не массив
     plugins: {
       react: reactPlugin,
       prettier: prettierPlugin,
     },
 
     rules: {
-      // если хочется «жёлтых» предупреждений, замените "error" → "warn"
       'prettier/prettier': 'error',
     },
   },
