@@ -1,15 +1,24 @@
 name: Lint
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [main]     # ← при желании укажите свои ветки
+  pull_request:          # проверка всех PR
 
 jobs:
   lint:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
+
       - uses: actions/setup-node@v3
         with:
-          node-version: '18'
-      - run: npm install
-      - run: chmod -R +x .husky  # Устанавливаем права выполнения для всей папки .husky
-      - run: npm run lint
+          node-version: 18
+          cache: 'npm'           # кэшируем ~30 сек экономим
+
+      - name: Install dependencies
+        run: npm ci              # быстрее и надёжнее чем `npm install`
+
+      - name: Run ESLint
+        run: npm run lint

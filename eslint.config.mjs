@@ -1,25 +1,24 @@
-import js from "@eslint/js";
-import globals from "globals";
-import pluginReact from "eslint-plugin-react";
-import { defineConfig } from "eslint/config";
+// eslint.config.mjs  — Flat-config
+import js from "@eslint/js";           // «eslint:recommended» в формате Flat
+import reactPlugin from "eslint-plugin-react";
 import prettierPlugin from "eslint-plugin-prettier";
+import globals from "globals";
 
-export default defineConfig({
-  files: ["**/*.{js,mjs,cjs,jsx}"],
-  plugins: {
-    js,
-    prettier: prettierPlugin,
+export default [
+  js.configs.recommended,              // раньше было "eslint:recommended"
+  reactPlugin.configs.recommended,     // раньше "plugin:react/recommended"
+  prettierPlugin.configs.recommended,  // раньше "plugin:prettier/recommended"
+
+  {
+    languageOptions: {
+      globals: { ...globals.browser },
+      sourceType: "module",
+      parserOptions: {
+        ecmaVersion: "latest",
+        ecmaFeatures: { jsx: true },
+      },
+    },
+    plugins: { react: reactPlugin, prettier: prettierPlugin },
+    rules: { "prettier/prettier": "error" },
   },
-  extends: [
-    "js/recommended",
-    "plugin:prettier/recommended",
-    "plugin:react/recommended",
-  ],
-  rules: {
-    "prettier/prettier": "error",
-  },
-  languageOptions: {
-    globals: globals.browser,
-    sourceType: "module", // Заменили "script" на "module" для совместимости с .mjs
-  },
-});
+];
