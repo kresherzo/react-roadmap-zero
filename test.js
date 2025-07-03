@@ -1,1 +1,0 @@
-function test() {return true}  // Нет пробела и точки с запятой
